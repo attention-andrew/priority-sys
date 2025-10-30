@@ -30,60 +30,40 @@ function promptGoal() {
 const subtaskButton = document.querySelector("#subtaskButton");
 const subLog = document.querySelector("#taskLog"); // will have to use as a parent section
 let subtaskCounter = 0;
-let subtaskArray =[];
-let subtaskIdArray =[];
-let childSubLog = document.querySelector("#"+subtaskIdArray[subtaskCounter]); // subtaskIdArray specific value child for #taskLog parent
-// ^ need this to be "#subIdN" | currently: null (but in theory could be "subIdN" *missing '#'*)
+let subtaskArray = [];
 
-// function to create new container with new ids
-// *theory is to make individual ids for tasks so they can be modified, moved, or removed easier*
+// [] - create {id, text} array of objects for subtasks 
+
+//let childSubLog = document.querySelector("#"+subtaskIdArray[subtaskCounter]); 
+
+
+// function to create unique ids, assign to new <div>s, then append to subLog <section>
 function createContainer() {
-    let idString ="subId" + subtaskCounter; // naming unique id's based on num of subtasks
-    subtaskIdArray.push(idString); // put string into array
-    p = document.createElement('pre'); // create <pre> elements to put subtasks into
-    p.setAttribute("id", subtaskIdArray[subtaskCounter]); // setting the <pre> element to have specific id
-    subLog.appendChild(p); // append to parent "subLog" aka "#taskLog" <section> 
-
-    // debug stuff
-    // console.log(typeof subtaskIdArray[subtaskCounter]);
-    // console.log(subtaskCounter);
-    // console.log(subtaskIdArray);
-    // console.log(childSubLog);
+    const idString ="subId" + subtaskCounter; // naming unique id's based on num of subtasks
+    const d = document.createElement('div'); // create <pre> elements to put subtasks into
+    d.id=idString; // setting the <div> to have specific id
+    subLog.appendChild(d); // append to parent "subLog" aka "#taskLog" <section> 
+    subtaskArray.push({ id: idString }); // array of objects
+    console.log(subtaskArray);
+    return d; // returns the created <div> element
 }
 
-// subtask button click --> put into array --> append input to "taskLog" <pre> element
+// subtask button click -> prompt input -> calls createContainer() -> append subtask to <div>
 subtaskButton.addEventListener("click", () => {
-    let subtask = prompt("Enter your subtasks:");
+    const subtask = prompt("Enter your subtasks:");
 
-    if (subtask === null){
-        alert("No input.");
-    } else {
-        createContainer(); // create new container function for each subtask
+    if (!subtask) return;
+    
+    const newContainer = createContainer(); // get's new <div>
 
-        subtaskArray.push(subtask); // puts subtask in array
+    newContainer.textContent += "Subtask " + (subtaskCounter + 1) + ": " + subtask;
 
-        // debug stuff
-        // console.log(subtaskArray);
-        // console.log(typeof subtaskArray);
-        // console.log(subtaskCounter);
-
-        console.log(typeof childSubLog);
-        console.log(childSubLog); // this shows NULL
-        console.log(typeof subLog);
-        console.log(subLog); // this shows <section id="tasklog"><pre id="subId0">...
-
-        // appends subtask to subLog parent <section>
-            // TODO: [] change to add child into subLog parent
-        // subLog.innerText += "Subtask " + (subtaskCounter + 1) + ": " + subtaskArray[subtaskCounter];
-        childSubLog.innerText += "Subtask " + (subtaskCounter + 1) + ": " + subtaskArray[subtaskCounter];
-
-        // indicates that you are trying to access the innerText property of a variable that currently holds a null value.
-            // childSubLog = null rn
-
-        subtaskCounter++;
-
-        // debug stuff
-        // console.log(subtaskArray);
-        // console.log(subtaskCounter);
-    }
+    subtaskArray.push({ subtask: subtask });
+    console.log(subtaskArray);
+    subtaskCounter++;
 });
+
+
+/* 2 lines below remove/edit code
+const target = subtaskArray.find(obj => obj.id === "subId1");
+target.subtask = "New text"; */
