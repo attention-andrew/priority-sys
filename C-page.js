@@ -1,8 +1,10 @@
 // what am I trying to do? 
-// [x] create a goal user input
-// [x] create subtask input
-// - [x] add multiple subtasks: think about button adding element, not looping
-// - [] multiple subtasks in individual elements
+/* TODO:
+    [x] create a goal user input
+    [x] create subtask input
+    - [x] add multiple subtasks: think about button adding element, not looping
+    - [x] multiple subtasks in individual elements
+*/
 
 
 // Code for goal
@@ -26,44 +28,55 @@ function promptGoal() {
 }
 // code for goal
 
-// find #subtaskButton button in html. find #taskLog <pre> element in html
+
+// Code for Subtask Buttons
 const subtaskButton = document.querySelector("#subtaskButton");
+const subtaskEditButton = document.querySelector("#subtaskEditButton");
 const subLog = document.querySelector("#taskLog"); // will have to use as a parent section
+let subtask="";
 let subtaskCounter = 0;
+let idString ="subId" + subtaskCounter;
 let subtaskArray = [];
-
-// [] - create {id, text} array of objects for subtasks 
-
-//let childSubLog = document.querySelector("#"+subtaskIdArray[subtaskCounter]); 
 
 
 // function to create unique ids, assign to new <div>s, then append to subLog <section>
-function createContainer() {
-    const idString ="subId" + subtaskCounter; // naming unique id's based on num of subtasks
-    const d = document.createElement('div'); // create <pre> elements to put subtasks into
-    d.id=idString; // setting the <div> to have specific id
-    subLog.appendChild(d); // append to parent "subLog" aka "#taskLog" <section> 
-    subtaskArray.push({ id: idString }); // array of objects
-    console.log(subtaskArray);
-    return d; // returns the created <div> element
+function createContainer() { 
+    idString ="subId" + subtaskCounter;
+    const d = document.createElement('div'); 
+    d.id=idString; 
+    subLog.appendChild(d); 
+    return d; 
 }
 
 // subtask button click -> prompt input -> calls createContainer() -> append subtask to <div>
 subtaskButton.addEventListener("click", () => {
-    const subtask = prompt("Enter your subtasks:");
+    subtask = prompt("Enter your subtasks:");
 
     if (!subtask) return;
     
-    const newContainer = createContainer(); // get's new <div>
+    const newContainer = createContainer(); 
 
     newContainer.textContent += "Subtask " + (subtaskCounter + 1) + ": " + subtask;
 
-    subtaskArray.push({ subtask: subtask });
-    console.log(subtaskArray);
+    subtaskArray.push({ id: idString, subtask: subtask }); 
+
     subtaskCounter++;
 });
 
 
-/* 2 lines below remove/edit code
-const target = subtaskArray.find(obj => obj.id === "subId1");
-target.subtask = "New text"; */
+// 2 lines below remove/edit code
+/*  TODO: 
+    [] - update <div>
+    [] - make 'subtask' & 'target' dynamic
+        - remove/edit btn on each -> prompt usr for new
+*/
+subtaskEditButton.addEventListener("click", () => {
+    const target = subtaskArray.find(obj => obj.id === "subId1");
+    target.subtask = "New SUBTASK TEXT WOOOOOP"; // updates array
+
+
+
+    console.log(subtask);
+    console.log(subtaskArray);
+});
+
