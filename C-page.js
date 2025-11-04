@@ -34,9 +34,10 @@ const subtaskButton = document.querySelector("#subtaskButton");
 const subtaskEditButton = document.querySelector("#subtaskEditButton");
 const subLog = document.querySelector("#taskLog"); // will have to use as a parent section
 let subtask="";
-let subtaskCounter = 0;
+let subtaskCounter = 1;
+let subtaskNumText = "";
 let idString ="subId" + subtaskCounter;
-let subtaskArray = [];
+let subtaskArray = []; // basically a key for the ids & subtasks
 
 
 // function to create unique ids, assign to new <div>s, then append to subLog <section>
@@ -56,7 +57,7 @@ subtaskButton.addEventListener("click", () => {
     
     const newContainer = createContainer(); 
 
-    newContainer.textContent += "Subtask " + (subtaskCounter + 1) + ": " + subtask;
+    newContainer.textContent += "Subtask " + subtaskCounter + ": " + subtask; 
 
     subtaskArray.push({ id: idString, subtask: subtask }); 
 
@@ -74,9 +75,12 @@ subtaskEditButton.addEventListener("click", () => {
     const target = subtaskArray.find(obj => obj.id === "subId1");
     target.subtask = "New SUBTASK TEXT WOOOOOP"; // updates array
 
+    let targetDiv = document.getElementById(target.id); // finds <div id="subId1">
+    console.log(target.id);
+    targetDiv.textContent = "Subtask " + target.id.substring(5,6) + ": " + target.subtask;
 
-
-    console.log(subtask);
+    console.log(targetDiv);
+    console.log(target.subtask);
     console.log(subtaskArray);
 });
 
